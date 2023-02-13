@@ -12,7 +12,7 @@ datasource db {
 
 model User {
   id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
+  // createdAt DateTime @default(now())
   email     String   @unique
   name      String?
   // role      Role     @default(USER)
