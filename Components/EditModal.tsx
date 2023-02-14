@@ -8,23 +8,23 @@ const EditModal = (props: any) => {
   const openModal = () => setOpen(true);
   const cancelButtonRef = useRef(null);
   const { id, name, email, position } = props.data;
-  const [formData, setFormData] = useState({});
-
-  const[val , setValue] = useState();
+  const [formData, setFormData] = useState(props.data);
 
   const handleInputs = (event: any) => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
   };
 
-console.log("Fordata" , formData)
+  const saveUser = async (e: any) => {
+    e.preventDefault();
 
-  const onChange = (e:any) => {
-    setValue(e.target.value);
-    console.log(e.target.value)
-    // getValue(e.target.value , e.target.name)
+    // setFormData(defaultValue);
+    const response = await fetch(`/api/updateUser/${id}`, {
+      method: "POST",
+      body: JSON.stringify(formData, id),
+    });
+    return await response.json();
   };
-
   return (
     <>
       <button type="button" onClick={openModal}>
@@ -62,14 +62,8 @@ console.log("Fordata" , formData)
               <div className="relative inline-block w-full max-w-md p-4 overflow-hidden text-left align-middle bg-white shadow-xl dark:bg-gray-700 dark:text-white transition-all transform rounded-2xl space-y-4">
                 <div>
                   <div className="mt-3 text-center sm:mt-5">
-                    <Dialog.Title
-                      as="h3"
-                      className="text-lg font-medium text-gray-900 dark:text-white"
-                    >
-                      {name}
-                    </Dialog.Title>
                     <div className=" relative px-6 py-6 lg:px-8">
-                      <form className="space-y-6" action="#">
+                      <form className="space-y-6" onSubmit={saveUser}>
                         <div>
                           <label className="block mb-2 text-sm text-left font-medium text-gray-900 dark:text-white">
                             Your Name
@@ -78,7 +72,7 @@ console.log("Fordata" , formData)
                             type="text"
                             name="name"
                             id="name"
-                            // value={name}
+                            value={formData.name}
                             onChange={handleInputs}
                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                             required
@@ -95,6 +89,7 @@ console.log("Fordata" , formData)
                             type="email"
                             name="email"
                             id="email"
+                            value={formData.email}
                             onChange={handleInputs}
                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                             placeholder="name@company.com"
@@ -110,6 +105,7 @@ console.log("Fordata" , formData)
                             type="text"
                             name="position"
                             id="position"
+                            value={formData.position}
                             onChange={handleInputs}
                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                             required
@@ -127,16 +123,18 @@ console.log("Fordata" , formData)
                 </div>
                 <div className="mt-5 sm:mt-6 sm:grid sm:grid-cols-2 sm:gap-3 sm:grid-flow-row-dense">
                   <button
-                    type="submit"
                     className="px-4 py-3 text-xs font-bold text-blue-500 dark:text-white uppercase bg-transparent dark:hover:bg-gray-800 border border-blue-500 dark:border-white hover:text-blue-700 dark:hover:text-white hover:border-blue-700 dark:hover:border-white rounded-lg"
-                    // onClick={() => setOpen(false)}
+                    onClick={() => setOpen(false)}
                   >
                     Cancel
                   </button>
                   <button
-                    type="button"
+                    type="submit"
                     className="px-4 py-3 text-xs font-bold text-white uppercase bg-blue-500 rounded-lg hover:bg-blue-600"
-                    onClick={() => setOpen(false)}
+                    onClick={(e) => {
+                      saveUser(e);
+                      setOpen(false);
+                    }}
                     ref={cancelButtonRef}
                   >
                     Update
