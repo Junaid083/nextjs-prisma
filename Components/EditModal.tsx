@@ -2,13 +2,14 @@ import { Fragment, useState, useRef } from "react";
 import { FiTrash2, FiEdit } from "react-icons/fi";
 import { Dialog, Transition } from "@headlessui/react";
 
-const EditModal = (props: any) => {
+const EditModal = (props: any ) => {
   const [isOpen, setOpen] = useState<boolean>(false);
   const closeModal = () => setOpen(false);
   const openModal = () => setOpen(true);
   const cancelButtonRef = useRef(null);
   const { id, name, email, position } = props.data;
   const [formData, setFormData] = useState(props.data);
+
 
   const handleInputs = (event: any) => {
     const { name, value } = event.target;
@@ -17,7 +18,7 @@ const EditModal = (props: any) => {
 
   const saveUser = async (e: any) => {
     e.preventDefault();
-
+    props.callBack(formData)
     // setFormData(defaultValue);
     const response = await fetch(`/api/updateUser/${id}`, {
       method: "POST",
