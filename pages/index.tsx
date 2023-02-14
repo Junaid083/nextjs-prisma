@@ -20,7 +20,7 @@ export default function Home({ data }: any) {
       method: "POST",
       body: JSON.stringify(formData),
     });
-
+    
     return await response.json();
   };
   return (
