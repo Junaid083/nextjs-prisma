@@ -1,18 +1,14 @@
 import Head from "next/head";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import Link from "next/link";
 import ShowUser from "../Components/ShowUser";
 import { PrismaClient } from "@prisma/client";
-import { CLIENT_RENEG_LIMIT } from "tls";
 const prisma = new PrismaClient();
 
 export default function Home({ data }: any) {
   const [formData, setFormData] = useState({});
   const [user, setuser] = useState(data);
-  const defaultValue = {
-    name: "",
-    email: "",
-  };
+
   const handleInputs = (event: any) => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
@@ -20,11 +16,11 @@ export default function Home({ data }: any) {
   const saveUser = async (e: any) => {
     e.preventDefault();
     setuser([...user, formData]);
-    // setFormData(defaultValue);
     const response = await fetch("/api/addUser", {
       method: "POST",
       body: JSON.stringify(formData),
     });
+
     return await response.json();
   };
   return (
@@ -62,11 +58,11 @@ export default function Home({ data }: any) {
             required
             onChange={handleInputs}
           ></input>
-          
+
           <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
             Your Position
           </label>
-           <input
+          <input
             name="position"
             type="text"
             id="position"
@@ -83,7 +79,7 @@ export default function Home({ data }: any) {
           >
             ADD
           </button>
-         
+
           <Link href="/view">
             <button
               type="submit"
