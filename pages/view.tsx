@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import Link from "next/link";
 const prisma = new PrismaClient();
-import { FiTrash2, FiEdit } from "react-icons/fi";
+import { FiArrowLeft} from "react-icons/fi";
 import DeleteModal from "../Components/DeleteModal";
 import EditModal from "../Components/EditModal";
 import { useState } from "react";
@@ -34,11 +34,9 @@ const view = ({ data }: any) => {
           <tr>
             <th scope="col" className="p-4">
               <div className="flex items-center">
-                <input
-                  id="checkbox-all-search"
-                  type="checkbox"
-                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                ></input>
+                <Link href="/">
+              <FiArrowLeft size={20} className="text-red-500" />
+                </Link>
               </div>
             </th>
             <th scope="col" className="px-6 py-3">
